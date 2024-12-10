@@ -12,31 +12,38 @@
 
 //  ----------
 
+if(!defined('plugin_dir_path')){
+    define('plugin_dir_path',plugin_dir_path(__FILE__));
+}
 
-function my_plugin_content()
-{
-    $file_path = plugin_dir_path(__FILE__).'admin/plugin-settings.php';
+if(!defined('plugin_dir_url')){
+    define('plugin_dir_url',plugin_dir_url(__FILE__));
+}
+
+if(!defined('plugin_url')){
+    define('plugin_url',plugins_url('',__FILE__));
+}
+
+
+if(is_admin()){
+    $file_path = plugin_dir_path."admin/admin-core.php";   // use contant variable that define for the path value
     if (file_exists($file_path)) {
         include $file_path;
     } else {
         echo 'File not found: ' . $file_path;
 
     }
-   
+
 }
 
-add_action('admin_menu', 'wp_menu_button');
-function wp_menu_button()
-{
-    add_menu_page(
-        'My Plugin Title',
-        'My Plugin',
-        'manage_options',
-        'my_plugin',
-        'my_plugin_content',
-        'dashicons-admin-generic',
-        20
-    );
-}
+$file_path = plugin_dir_path."includes/common-core.php";   // use contant variable that define for the path value
+
+// echo $file_path;
+    if (file_exists($file_path)) {
+        include $file_path;
+    } else {
+        echo 'File not found: ' . $file_path;
+
+    }
 
 
