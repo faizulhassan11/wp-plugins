@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name:       Custom Menu Option
+ * Plugin Name:       My Plugin
  * Plugin URI:        https://example.com/plugins/the-basics/
  * Description:       Hello plugins 1.
  * Version:           1.10.3
@@ -27,7 +27,7 @@ $file_path = plugin_dir_path . "includes/common-core.php";
 if (file_exists($file_path)) {
     include $file_path;
 } else {
-    echo 'File not found: ' . $file_path;
+    echo esc_html('File not found: ' . $file_path);
 }
 
 if (is_admin()) {

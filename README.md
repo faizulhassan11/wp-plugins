@@ -30,4 +30,6 @@ Data Validation
 Inputs and Outputs
 
 
+Nonces
+JavaScript, jQuery - Ajax
 
