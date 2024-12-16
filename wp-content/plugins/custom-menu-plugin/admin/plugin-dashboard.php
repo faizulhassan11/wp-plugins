@@ -9,4 +9,6 @@
 <div class="wrap">
     <h1><?php esc_html_e('Dashboard', 'wp_plugin'); ?></h1>
     <p><?php esc_html_e('This is a test plugin to learn WordPress plugin development', 'wp_plugin'); ?></p>
+    <button id="get_total_projects">Get Total Books</button>
+    <p id="project_response"></p>
 </div>

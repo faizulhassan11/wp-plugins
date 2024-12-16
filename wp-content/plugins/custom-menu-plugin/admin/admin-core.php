@@ -120,5 +120,14 @@ add_action('admin_enqueue_scripts','wp_plugin_script_admin_files');
 function wp_plugin_script_admin_files() {
     // Enqueue admin-specific JavaScript file
    wp_enqueue_script('admin-script',plugin_dir_url.'/admin/js/admin.js',array('jquery'),'1.0.0',true);
+
+   wp_localize_script(
+	'admin-script',
+	'wp_plugin_ajax_obj',  // wp_plugin_ajax_obj.nonce  ,  wp_plugin_ajax_obj.ajax_url
+	array(
+		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce('wp_plugin_ajax_example')
+    )
+);
     
 }

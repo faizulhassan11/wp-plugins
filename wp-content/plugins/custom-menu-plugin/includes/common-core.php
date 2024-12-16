@@ -137,6 +137,39 @@ function wp_plugin_custom_shortcode($atts = [], $content = null) {
     if (!is_null($content)) {
         $output .= apply_filters('the_content', $content);
     }
+    $output .= '<br><button id="get_total_projects">Get Total Projects</button> <p id="project_response"></p> <br> <p>The following Projects count will be automatically updated</p> <h2 id="auto-projects-count"></h2>';
     $output .= '</div>';
     return $output;
 }
+
+
+// demo ajax action callback function
+
+add_action( 'wp_ajax_wp_plugin_ajax_example', 'wp_plugin_ajax_handler' );  // action hook for logged in users
+add_action( 'wp_ajax_nopriv_wp_plugin_ajax_example', 'wp_plugin_ajax_handler' ); // action hook for non-logged in users
+
+/**
+ * Handles my AJAX request.
+ */
+function wp_plugin_ajax_handler() {
+	// Handle the ajax request here
+
+    check_ajax_referer('wp_plugin_ajax_example');
+
+    // Task: Send the total number of books available in our custom post type
+
+    $args = array(
+        'post_type'=>'project',
+        'posts_per_page' => -1
+    );
+    $the_query = new WP_Query($args);
+
+    $total_books = $the_query->post_count;
+
+    wp_send_json(esc_html__($total_books));
+
+	wp_die(); // All ajax handlers die when finished
+}
+
+
+

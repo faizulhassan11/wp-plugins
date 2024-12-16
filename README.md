@@ -33,3 +33,19 @@ Inputs and Outputs
 Nonces
 JavaScript, jQuery - Ajax
 
+
+
+
+
+Topics Covered
+Ajax
+What is XMLHttpRequest
+XMLHttpRequest Object Methods
+XMLHttpRequest Object Properties
+Ajax with JavaScript
+AJAX with JSON
+AJAX with PHP & MySQL (CRUD & Form Handling)
+AJAX with API
+Fetch Data Using AJAX in WordPress
+Heartbeat API 
+
