@@ -37,7 +37,7 @@ JavaScript, jQuery - Ajax
 
 
 
-Topics Covered
+Topics:
 Ajax
 What is XMLHttpRequest
 XMLHttpRequest Object Methods
@@ -48,4 +48,12 @@ AJAX with PHP & MySQL (CRUD & Form Handling)
 AJAX with API
 Fetch Data Using AJAX in WordPress
 Heartbeat API 
+
+
+
+
+Create, Update, Delete WordPress Users
+Manage User Metadata
+Manage User Roles and Capabilities
+GET Data with HTTP API
 

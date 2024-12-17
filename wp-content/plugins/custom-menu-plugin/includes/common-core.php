@@ -173,3 +173,40 @@ function wp_plugin_ajax_handler() {
 
 
 
+
+
+function wp_plugin_create_user($username, $email) {
+    // Check if the username or email already exists
+    $user_id = username_exists($username);
+    $user_email = email_exists($email);
+
+    if ($user_id) {
+        return array('message' => 'The username already exists', 'result' => false);
+    }
+
+    if ($user_email) {
+        return array('message' => 'The email already exists', 'result' => false);
+    }
+
+    // Generate a random password
+    $random_password = wp_generate_password(12, false);
+
+    // Create the user
+    $new_user_id = wp_create_user($username, $random_password, $email);
+
+    if (is_wp_error($new_user_id)) {
+        return array('message' => 'Error creating user: ' . $new_user_id->get_error_message(), 'result' => false);
+    }
+
+    return array('message' => 'The user has been successfully created', 'result' => true);
+}
+
+// Hook to 'init' to ensure WordPress is fully loaded
+add_action('init', function() {
+    $response = wp_plugin_create_user('newuser', 'newuser@gmail.com');
+    if ($response['result']) {
+        echo $response['message'];
+    } else {
+        echo $response['message'];
+    }
+});

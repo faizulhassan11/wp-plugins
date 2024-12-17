@@ -1,3 +1,4 @@
+```php
 <?php
 // Admin-specific code
 
@@ -112,7 +113,6 @@ function wp_plugin_setting_page_content() {
     }
 }
 
-
 // enqueuing admin js file
 
 add_action('admin_enqueue_scripts','wp_plugin_script_admin_files');
@@ -131,3 +131,105 @@ function wp_plugin_script_admin_files() {
 );
     
 }
+
+//learning how to add / save custom information into user's metadata
+
+function wp_plugin_usermeta_form_field_birthday( $user ) {
+    ?>
+    <h3>It's Your Birthday</h3>
+    <table class="form-table">
+        <tr>
+            <th>
+                <label for="birthday">Birthday</label>
+            </th>
+            <td>
+                <input type="date"
+                       class="regular-text ltr"
+                       id="birthday"
+                       name="birthday"
+                       value="<?= esc_attr( get_user_meta( $user->ID, 'birthday', true ) ) ?>"
+                       title="Please use YYYY-MM-DD as the date format."
+                       pattern="(19[0-9][0-9]|20[0-9][0-9])-(1[0-2]|0[1-9])-(3[01]|[21][0-9]|0[1-9])"
+                       required>
+                <p class="description">
+                    Please enter your birthday date.
+                </p>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+function wp_plugin_usermeta_form_field_birthday_update( $user_id ) {
+    // check that the current user have the capability to edit the $user_id
+    if ( ! current_user_can( 'edit_user', $user_id ) ) {
+        return false;
+    }
+ 
+    // create/update user meta for the $user_id
+    return update_user_meta(
+        $user_id,
+        'birthday',
+        $_POST['birthday']
+    );
+}
+
+// Add the field to user's own profile editing screen.
+add_action(
+    'show_user_profile',
+    'wp_plugin_usermeta_form_field_birthday'
+);
+ 
+// Add the field to user profile editing screen.
+add_action(
+    'edit_user_profile',
+    'wp_plugin_usermeta_form_field_birthday'
+);
+ 
+// Add the save action to user's own profile editing screen update.
+add_action(
+    'personal_options_update',
+    'wp_plugin_usermeta_form_field_birthday_update'
+);
+ 
+// Add the save action to user profile editing screen update.
+add_action(
+    'edit_user_profile_update',
+    'wp_plugin_usermeta_form_field_birthday_update'
+);
+
+// leaning Roles and Capabilities
+
+function wp_plugin_simple_role() {
+	add_role(
+		'proof_reader',
+		'Proof Reader',
+		array(
+			'read'         => true,
+			'edit_posts'   => true,
+			'upload_files' => true,
+		),
+	);
+}
+
+// Add the simple_role.
+add_action( 'init', 'wp_plugin_simple_role' );
+
+// function wp_plugin_simple_role_remove() {
+// 	remove_role( 'proof_reader' );
+// }
+
+// // Remove the simple_role.
+// add_action( 'init', 'wp_plugin_simple_role_remove' );
+
+
+function wp_plugin_simple_role_caps() {
+	// Gets the simple_role role object.
+	$role = get_role( 'proof_reader' );
+
+	// Add a new capability.
+	$role->add_cap( 'edit_others_posts', true );
+}
+
+// Add simple_role capabilities, priority must be after the initial role definition.
+add_action( 'init', 'wp_plugin_simple_role_caps', 11 );
